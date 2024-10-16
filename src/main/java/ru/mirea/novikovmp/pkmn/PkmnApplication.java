@@ -1,42 +1,32 @@
 package ru.mirea.novikovmp.pkmn;
 
-import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class PkmnApplication {
 
-    public static void main(String[] args){
-        String filePath="src/main/resources/my_card.txt"; // Путь к вашему файлу my_card.txt
-        String exportFilePath="src/main/resources/"+"Staraptor.crd"; // Путь для экспорта сериализованной карты
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        try{
-// Создание экземпляра класса CardImport
-            Card card=CardImport.importCardFromFile(filePath);
+        System.out.print("Enter the name of the card (without extension): ");
+        String cardName = scanner.nextLine();
 
-            if(card!=null){
-                System.out.println("Loaded Card Data:");
-                System.out.println(card.toString());
+        String filePath = "src/main/resources/" + cardName + ".crd";
 
-// Экспорт карты в файл
-                CardExport.exportCardToFile(card,exportFilePath);
+        try {
+            // Десериализация чужой карты из файла
+            Card importedCard = CardImport.deserializeCardFromFile(filePath);
 
-                System.out.println("Card exported to file: "+exportFilePath);
-
-// Десериализация карты из файла
-                Card importedCard=CardImport.deserializeCardFromFile(exportFilePath);
-
-                if(importedCard!=null){
-                    System.out.println("Imported Card Data:");
-                    System.out.println(importedCard.toString());
-                }else{
-                    System.out.println("Failed to import card data.");
-                }
-            }else{
-                System.out.println("Failed to load card data.");
+            if (importedCard != null) {
+                System.out.println("Imported Card Data:");
+                System.out.println(importedCard.toString());
+            } else {
+                System.out.println("Failed to import card data.");
             }
-        }catch(FileNotFoundException e){
-            System.err.println("File not found: "+filePath);
-        }catch(Exception e){
-            System.err.println("An error occurred: "+e.getMessage());
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+            e.printStackTrace(); // Вывод стека вызовов для более подробной информации об ошибке
+        } finally {
+            scanner.close();
         }
     }
 }
