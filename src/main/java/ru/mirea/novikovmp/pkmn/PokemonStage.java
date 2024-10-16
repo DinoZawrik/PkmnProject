@@ -12,6 +12,6 @@ public enum PokemonStage {
 
     @Override
     public String toString() {
-        return "PokemonStage{}";
+        return name();
     }
 }

@@ -1,7 +1,9 @@
 package ru.mirea.novikovmp.pkmn;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,7 +46,7 @@ public class CardImport {
                 hp = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.err.println("Invalid HP value: " + scanner.nextLine());
-                return null; // или любое другое значение по умолчанию
+                hp = 0; // Установка дефолтного значения для HP, если оно не указано явно
             }
 
             // Чтение типа покемона
@@ -52,9 +54,9 @@ public class CardImport {
                 System.err.println("Not enough data in file: " + filePath);
                 return null;
             }
-            EnergyType pokemonType;
+            EnergyType energyType;
             try {
-                pokemonType = EnergyType.valueOf(scanner.nextLine().trim());
+                energyType = EnergyType.valueOf(scanner.nextLine().trim());
             } catch (IllegalArgumentException e) {
                 System.err.println("Invalid energy type: " + scanner.nextLine());
                 return null; // или любое другое значение по умолчанию
@@ -90,7 +92,7 @@ public class CardImport {
                 }
                 String cost = parts[0];
                 String skillName = parts[1];
-                String damageOrAction;
+                String damageOrAction; // Объявление переменной
                 String description;
 
                 // Проверяем, является ли третья часть числом или описанием действия
@@ -112,42 +114,31 @@ public class CardImport {
 
                 // Если damageOrAction содержит только число, то оно является уроном
                 int damage;
-                if (damageOrAction.matches("\\d+")) {
+                try {
                     damage = Integer.parseInt(damageOrAction);
-                } else {
+                } catch (NumberFormatException e) {
                     damage = 0; // Установка дефолтного значения для урона, если оно не указано явно
                 }
 
                 skills.add(new AttackSkill(skillName, damage, cost, damageOrAction + " " + description));
             }
 
-            // Чтение типов слабости и сопротивления
+            // Чтение типов слабости
             if (!scanner.hasNextLine()) {
                 System.err.println("Not enough data in file: " + filePath);
                 return null;
             }
-            EnergyType weaknessType = null;
+            EnergyType weaknessType;
             String weaknessTypeStr = scanner.nextLine().trim();
             if (!weaknessTypeStr.isEmpty()) {
                 try {
                     weaknessType = EnergyType.valueOf(weaknessTypeStr);
                 } catch (IllegalArgumentException e) {
                     System.err.println("Invalid weakness type: " + weaknessTypeStr);
+                    weaknessType = null;
                 }
-            }
-
-            if (!scanner.hasNextLine()) {
-                System.err.println("Not enough data in file: " + filePath);
-                return null;
-            }
-            EnergyType resistanceType = null;
-            String resistanceTypeStr = scanner.nextLine().trim();
-            if (!resistanceTypeStr.isEmpty()) {
-                try {
-                    resistanceType = EnergyType.valueOf(resistanceTypeStr);
-                } catch (IllegalArgumentException e) {
-                    System.err.println("Invalid resistance type: " + resistanceTypeStr);
-                }
+            } else {
+                weaknessType = null;
             }
 
             // Чтение цены побега
@@ -162,31 +153,13 @@ public class CardImport {
                 System.err.println("Not enough data in file: " + filePath);
                 return null;
             }
-            String gameSet = scanner.nextLine().trim();
 
-            if (!scanner.hasNextLine()) {
-                System.err.println("Not enough data in file: " + filePath);
-                return null;
-            }
             char regulationMark;
             try {
                 regulationMark = scanner.nextLine().trim().charAt(0);
             } catch (StringIndexOutOfBoundsException e) {
                 System.err.println("Invalid regulation mark: " + scanner.nextLine());
                 regulationMark = ' '; // или любое другое значение по умолчанию
-            }
-
-            // Номер карты в наборе должен быть целым числом
-            if (!scanner.hasNextLine()) {
-                System.err.println("Not enough data in file: " + filePath);
-                return null;
-            }
-            int cardNumberInSet;
-            try {
-                cardNumberInSet = Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid card number in set: " + scanner.nextLine());
-                cardNumberInSet = 0; // или любое другое значение по умолчанию
             }
 
             // Чтение владельца карты
@@ -204,10 +177,19 @@ public class CardImport {
             }
 
             // Создание экземпляра класса Card
-            return new Card(pokemonOwner, regulationMark, gameSet, retreatCost, resistanceType,
-                    weaknessType, skills, evolvesFrom, pokemonType, hp, name, pokemonStage);
+            return new Card(pokemonStage, name, hp, energyType, evolvesFrom, skills, weaknessType, retreatCost, regulationMark, pokemonOwner);
+
         } finally {
             scanner.close();
+        }
+    }
+
+    public static Card deserializeCardFromFile(String filePath) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            return (Card) ois.readObject();
+        } catch (Exception e) {
+            System.err.println("Error deserializing card from file: " + e.getMessage());
+            return null;
         }
     }
 }
