@@ -1,13 +1,16 @@
 package ru.mirea.novikovmp.pkmn;
 
-public class AttackSkill {
+import java.io.Serializable;
+
+public class AttackSkill implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private int damage;
     private String cost;
     private String description;
 
-    public AttackSkill() {
-    }
+    public AttackSkill() {}
 
     public AttackSkill(String name, int damage, String cost, String description) {
         this.name = name;
@@ -26,35 +29,15 @@ public class AttackSkill {
                 '}';
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public int getDamage() { return damage; }
+    public void setDamage(int damage) { this.damage = damage; }
 
-    public int getDamage() {
-        return damage;
-    }
+    public String getCost() { return cost; }
+    public void setCost(String cost) { this.cost = cost; }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public String getCost() {
-        return cost;
-    }
-
-    public void setCost(String cost) {
-        this.cost = cost;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }

@@ -1,8 +1,11 @@
 package ru.mirea.novikovmp.pkmn;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Card {
+public class Card implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private PokemonStage pokemonStage;
     private String name;
     private int hp;
@@ -14,12 +17,14 @@ public class Card {
     private String retreatCost;
     private String gameSet;
     private char regulationMark;
+    private int cardNumberInSet;
     private Student pokemonOwner;
 
-    public Card() {
-    }
+    public Card() {}
 
-    public Card(Student pokemonOwner, char regulationMark, String gameSet, String retreatCost, EnergyType resistanceType, EnergyType weaknessType, List<AttackSkill> skills, Card evolvesFrom, EnergyType pokemonType, int hp, String name, PokemonStage pokemonStage) {
+    public Card(Student pokemonOwner, char regulationMark, String gameSet, String retreatCost,
+                EnergyType resistanceType, EnergyType weaknessType, List<AttackSkill> skills,
+                Card evolvesFrom, EnergyType pokemonType, int hp, String name, PokemonStage pokemonStage) {
         this.pokemonOwner = pokemonOwner;
         this.regulationMark = regulationMark;
         this.gameSet = gameSet;
@@ -48,103 +53,47 @@ public class Card {
                 ", retreatCost='" + retreatCost + '\'' +
                 ", gameSet='" + gameSet + '\'' +
                 ", regulationMark=" + regulationMark +
+                ", cardNumberInSet=" + cardNumberInSet +
                 ", pokemonOwner=" + pokemonOwner +
                 '}';
     }
 
-    public PokemonStage getPokemonStage() {
-        return pokemonStage;
-    }
+    public PokemonStage getPokemonStage() { return pokemonStage; }
+    public void setPokemonStage(PokemonStage pokemonStage) { this.pokemonStage = pokemonStage; }
 
-    public void setPokemonStage(PokemonStage pokemonStage) {
-        this.pokemonStage = pokemonStage;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    public int getHp() { return hp; }
+    public void setHp(int hp) { this.hp = hp; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public EnergyType getPokemonType() { return pokemonType; }
+    public void setPokemonType(EnergyType pokemonType) { this.pokemonType = pokemonType; }
 
-    public int getHp() {
-        return hp;
-    }
+    public Card getEvolvesFrom() { return evolvesFrom; }
+    public void setEvolvesFrom(Card evolvesFrom) { this.evolvesFrom = evolvesFrom; }
 
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
+    public List<AttackSkill> getSkills() { return skills; }
+    public void setSkills(List<AttackSkill> skills) { this.skills = skills; }
 
-    public EnergyType getPokemonType() {
-        return pokemonType;
-    }
+    public EnergyType getWeaknessType() { return weaknessType; }
+    public void setWeaknessType(EnergyType weaknessType) { this.weaknessType = weaknessType; }
 
-    public void setPokemonType(EnergyType pokemonType) {
-        this.pokemonType = pokemonType;
-    }
+    public EnergyType getResistanceType() { return resistanceType; }
+    public void setResistanceType(EnergyType resistanceType) { this.resistanceType = resistanceType; }
 
-    public Card getEvolvesFrom() {
-        return evolvesFrom;
-    }
+    public String getRetreatCost() { return retreatCost; }
+    public void setRetreatCost(String retreatCost) { this.retreatCost = retreatCost; }
 
-    public void setEvolvesFrom(Card evolvesFrom) {
-        this.evolvesFrom = evolvesFrom;
-    }
+    public String getGameSet() { return gameSet; }
+    public void setGameSet(String gameSet) { this.gameSet = gameSet; }
 
-    public List<AttackSkill> getSkills() {
-        return skills;
-    }
+    public char getRegulationMark() { return regulationMark; }
+    public void setRegulationMark(char regulationMark) { this.regulationMark = regulationMark; }
 
-    public void setSkills(List<AttackSkill> skills) {
-        this.skills = skills;
-    }
+    public int getCardNumberInSet() { return cardNumberInSet; }
+    public void setCardNumberInSet(int cardNumberInSet) { this.cardNumberInSet = cardNumberInSet; }
 
-    public EnergyType getWeaknessType() {
-        return weaknessType;
-    }
-
-    public void setWeaknessType(EnergyType weaknessType) {
-        this.weaknessType = weaknessType;
-    }
-
-    public EnergyType getResistanceType() {
-        return resistanceType;
-    }
-
-    public void setResistanceType(EnergyType resistanceType) {
-        this.resistanceType = resistanceType;
-    }
-
-    public String getRetreatCost() {
-        return retreatCost;
-    }
-
-    public void setRetreatCost(String retreatCost) {
-        this.retreatCost = retreatCost;
-    }
-
-    public String getGameSet() {
-        return gameSet;
-    }
-
-    public void setGameSet(String gameSet) {
-        this.gameSet = gameSet;
-    }
-
-    public char getRegulationMark() {
-        return regulationMark;
-    }
-
-    public void setRegulationMark(char regulationMark) {
-        this.regulationMark = regulationMark;
-    }
-
-    public Student getPokemonOwner() {
-        return pokemonOwner;
-    }
-
-    public void setPokemonOwner(Student pokemonOwner) {
-        this.pokemonOwner = pokemonOwner;
-    }
+    public Student getPokemonOwner() { return pokemonOwner; }
+    public void setPokemonOwner(Student pokemonOwner) { this.pokemonOwner = pokemonOwner; }
 }
