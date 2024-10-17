@@ -2,12 +2,11 @@ Stage1
 Starvia
 90
 Colorless
--
+src/main/resources/evolves_from_from.txt
 CC/Wing Attack/50
 Lightning
 Fighting
 1
 Star Birth
 C
-30
--
+null

@@ -1,13 +1,14 @@
-package ru.mirea.novikovmp.pkmn;
+package ru.mirea.pkmn;
 
 public enum PokemonStage {
-    Basic,
-    Stage1,
-    Stage2,
-    VStar,
-    VMax;
+    BASIC,
+    STAGE1,
+    STAGE2,
+    VSTAR,
+    VMAX;
 
     PokemonStage() {
+
     }
 
     @Override

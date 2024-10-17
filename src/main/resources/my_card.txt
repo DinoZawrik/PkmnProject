@@ -3,11 +3,10 @@ Staraptor
 150
 Colorless
 src/main/resources/evolves_from.txt
-3C/Strong Breeze/Shuffle Active Pokémon, 4C/Spinning Bird/180
+3C/Strong Breeze/100, 4C/Spinning Bird/180
 Lightning
 Fighting
 1
 Star Birth
 U
-60
 Новиков/Максим/Петрович/БСБО-05-23
