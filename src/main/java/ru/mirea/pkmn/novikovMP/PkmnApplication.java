@@ -9,12 +9,12 @@ public class PkmnApplication implements Serializable {
 
     private static final String CARD_FILE_PATH = "src/main/resources/my_card.txt";
     private static final String STARAPTOR_FILE_PATH = "Staraptor.crd";
-    private static final String SOMEONE_FILE_PATH = "src/main/resources/Corvisquire.crd";
+    private static final String SOMEONE_FILE_PATH = "src/main/resources/Glastrier.crd";
 
     public static void main(String[] args) {
         Card card = loadCardFromTextFile(CARD_FILE_PATH);
         if (card != null) {
-            printCardInfo(card);
+
             saveCard(card);
             saveEvolutionCard(card);
         }
@@ -35,15 +35,7 @@ public class PkmnApplication implements Serializable {
         return cardImport.loadCard();
     }
 
-    private static void printCardInfo(Card card) {
-        System.out.println("Вывод из текстового файла:");
-        System.out.println(card);
 
-        if (card.getEvolvesFrom() != null) {
-            System.out.println("Эволюционирует из:");
-            System.out.println(card.getEvolvesFrom());
-        }
-    }
 
     private static void saveCard(Card card) {
         CardExport cardExport = new CardExport();

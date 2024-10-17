@@ -144,10 +144,10 @@ public class Card implements Serializable {
         StringBuilder result = new StringBuilder();
 
         result.append("Карта покемона").append("\n")
-                .append("Стадия: ").append(pokemonStage).append("\n")
-                .append("Имя покемона: ").append(name).append("\n")
+                .append("Стадия: ").append(pokemonStage != null ? pokemonStage : "-").append("\n")
+                .append("Имя покемона: ").append(name != null ? name : "-").append("\n")
                 .append("ХП: ").append(hp).append("\n")
-                .append("Тип покемона: ").append(pokemonType).append("\n")
+                .append("Тип покемона: ").append(pokemonType != null ? pokemonType : "-").append("\n")
                 .append("Способности атак: ").append(skills != null ? skills : "-").append("\n")
                 .append("Тип слабости: ").append(weaknessType != null ? weaknessType : "-").append("\n")
                 .append("Тип сопротивления: ").append(resistanceType != null ? resistanceType : "-").append("\n")
@@ -162,13 +162,22 @@ public class Card implements Serializable {
         }
 
         if (evolvesFrom != null) {
-            result.append("\n")
-                    .append("Предшественник:").append("\n")
-                    .append(evolvesFrom.toString());
+            result.append("\n").append("Предшественник:\n").append(evolvesFrom.toString());
         } else {
             result.append("Не эволюционирует.\n");
         }
 
+        return result.toString();
+    }
+
+    // Новый метод для вывода цепочки эволюций
+    public String printEvolutionChain() {
+        StringBuilder result = new StringBuilder();
+        Card currentCard = this;
+        while (currentCard != null) {
+            result.append(currentCard.toString()).append("\n");
+            currentCard = currentCard.getEvolvesFrom();
+        }
         return result.toString();
     }
 }

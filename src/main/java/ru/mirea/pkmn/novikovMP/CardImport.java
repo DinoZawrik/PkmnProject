@@ -44,8 +44,19 @@ public class CardImport {
             card.setGameSet(br.readLine());
             card.setRegulationMark(br.readLine().trim().charAt(0));
 
+            // Чтение информации о владельце
+            String[] ownerParts = br.readLine().split("/");
+            if (ownerParts.length == 4) {
+                card.setPokemonOwner(new Student(ownerParts[0].trim(), ownerParts[1].trim(), ownerParts[2].trim(), ownerParts[3].trim()));
+            }
+
+            // Проверка на пустую карту
+            if (card.getPokemonStage() == null || card.getName().isEmpty() || card.getHp() == 0) {
+                return null; // Если карта пустая, возвращаем null
+            }
+
         } catch (IOException e) {
-            System.err.println("Ошибка чтения файла: " + e.getMessage());
+            System.err.println("");
         }
         return card;
     }
@@ -72,7 +83,12 @@ public class CardImport {
         if (evolvesFromPath.equals("-")) {
             return null;
         }
-        return loadCardFromFile(evolvesFromPath);
+        Card evolvesFromCard = loadCardFromFile(evolvesFromPath);
+        if (evolvesFromCard != null && evolvesFromCard.getPokemonStage() != null && !evolvesFromCard.getName().isEmpty()) {
+            return evolvesFromCard;
+        } else {
+            return null; // Если карта пустая или не существует, возвращаем null
+        }
     }
 
     private List<AttackSkill> parseSkills(String skillsStr) {
